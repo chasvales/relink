@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="linker">
+<head>
+	<meta charset="UTF-8">
+	<title>RElink by Versus Interactive - 301 Redirect HTACCESS rewrites</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="../_css/bootstrap.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../_css/main.css">
+</head>
+<body>
+	<div class="page-header">
+		<h3 class="text-center logo text-uppercase"><strong class="blue_green">re</strong>link <span>BY VERSUS INTERACTIVE</span></h3>
+	</div>
+	<div class="container">
+		<div class="col-md-6 col-md-offset-4">
+		<div id="status"><i id="loading-icon-install" class="fa fa-spinner fa-pulse"></i> Updating your config files and creating RElink tables.</div>
+		<form method="POST" action="#" id="install-form">
+			<div class="row">
+				<h3 class="text-uppercase">Configure Your install</h3>
+				<h5>Database Host</h5>
+				<input type="text" name="db_host" placeholder="localhost" class="form-control" required>
+				<h5>Database Name</h5>
+				<input type="text" name="db_name" placeholder="relink_app" class="form-control" required>
+				<h5>Database User</h5>
+				<input type="text" name="db_user" placeholder="root" class="form-control" required>
+				<h5>Database Password</h5>
+				<input type="text" name="db_pass" id="db_pass" placeholder="root" class="form-control switchpw" required>
+			</div>
+			<div class="row">
+				<h3 class="text-uppercase">Configure Your htaccess file</h3>
+				<h5>Set your root domain</h5>
+				<input type="text" name="root_domain" placeholder="http://www.yourdomain.com" class="form-control" required>
+				<small>This is used to create the 301 redirect.</small> 
+			</div>
+			<div class="row">
+				<h5>Set your htaccess destination</h5>
+				<input type="text" name="hta_dir" placeholder="/" class="form-control" required>
+				<small>Use a relative path as it pertains to root directory (ex: '/' will be yourdomain.com/.htaccess)</small> 
+			</div>
+			<div class="row">
+				<h5>Set your htaccess start point</h5>
+				<input type="text" name="hta_st" placeholder="# END WordPress" class="form-control">
+				<small>This is will be the last line before the RElink redirects (RElink will replace anything after this line). This can be left blank if you have a blank htaccess file.</small> 
+				<br>
+				<strong>RElink redirects will start with '# BEGIN RlviReWrite'</strong>
+			</div>
+			<input type="submit" name="submit" id="complete-install" value="complete install">
+		</form>
+		<form id="login-creds" action="#">
+			<div class="row">
+				<h3 class="text-uppercase">Setup your RElink admin log in</h3>
+				<h5>Admin Name</h5>
+				<input type="text" name="usr_name" placeholder="first last" class="form-control" required>
+				<h5>Admin Email</h5>
+				<input type="email" name="usr_email" placeholder="you@yourdomain.com" class="form-control" required>
+				<h5>Admin Password</h5>
+				<input type="text" name="usr_pass" placeholder="password" class="form-control switchpw" required>
+				<input type="submit" name="submit" id="complete-install" value="done">
+			</div>
+		</form>
+	</div>
+	<script src="../_js/jquery-2.1.4.min.js"></script>
+	<script src="../_js/bootstrap.min.js"></script>
+	<script src="install.js"></script>
+</body>
+</html>

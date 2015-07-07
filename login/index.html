@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="linker">
+<head>
+	<meta charset="UTF-8">
+	<title>RElink by Versus Interactive - 301 Redirect HTACCESS rewrites</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="apple-touch-icon" href="../_icons/ios/icons/iphone_icon_80.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="../_icons/ios/icons/iphone_icon_80.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="../_icons/ios/icons/iphone_icon_120.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="../_icons/ios/icons/iphone_icon_152.png">
+	<link rel="apple-touch-startup-image" href="../_icons/ios/splash/iphone_splash_640x1136.png">
+
+	<link rel="stylesheet" href="../_css/bootstrap.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../_css/main.css">
+	<script src="../_js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		var state=0;
+		$.get( "../_assets/config_test.php", function( data ) { 
+			console.log(data); 
+			if(data == "empty"){ 
+				window.location = '../install/';
+			}else{ $('body').removeClass('hidden'); } 
+		});
+	});
+	</script>
+</head>
+<body class="hidden">
+	<div class="page-header">
+		<h3 class="text-center logo text-uppercase"><strong class="blue_green">re</strong>link <span>BY VERSUS INTERACTIVE</span></h3>
+	</div>
+	<div class="container">
+		<div class="col-md-5 col-md-offset-4">
+		<div id="status"><i id="loading-icon-install" class="fa fa-spinner fa-pulse"></i> Please wait while we redirect you.</div>
+		<div id="invalid" class="bg-danger"><i id="loading-icon-install" class="fa fa-exclamation-triangle"></i> Sorry, we could not validate your login.</div>
+		<form id="login-form" action="#">
+			<div class="row">
+				<h3 class="text-uppercase">Log into your RElink account</h3>
+				<h5>Admin Email</h5>
+				<input type="email" name="usr_email" placeholder="you@yourdomain.com" class="form-control" required>
+				<h5>Admin Password</h5>
+				<input type="text" name="usr_pass" placeholder="password" class="form-control switchpw" autocomplete="off" required>
+				<input type="submit" name="submit" id="complete-install" value="login">
+			</div>
+		</form>
+	</div>
+	<script src="../_js/bootstrap.min.js"></script>
+	<script src="login.js"></script>
+</body>
+</html>

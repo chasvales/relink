@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="linker">
+<head>
+	<meta charset="UTF-8">
+	<title>RElink by Versus Interactive - 301 Redirect HTACCESS rewrites</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="apple-touch-icon" href="_icons/ios/icons/iphone_icon_80.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="_icons/ios/icons/iphone_icon_80.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="_icons/ios/icons/iphone_icon_120.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="_icons/ios/icons/iphone_icon_152.png">
+	<link rel="apple-touch-startup-image" href="_icons/ios/splash/iphone_splash_640x1136.png">
+	<link rel="stylesheet" href="_css/bootstrap.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="_css/main.css">
+	<script src="_js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$.get( "_assets/config_test.php", function( data ) { 
+			if(data == "empty"){ window.location = './install/'; }
+		});
+		$.get( "_assets/auth.php", function( data ) { 
+			if(data == "invalid"){ window.location = './login/'; }else{ $('body').removeClass('hidden'); }
+		});
+	});
+	</script>
+</head>
+<body class="hidden">
+	<div id="success-bar" class="bg-success"><div class="innerText"></div><i class="close-btn">X</i></div>
+	<div class="page-header">
+		<h3 class="text-center logo text-uppercase"><strong class="blue_green">re</strong>link <span>BY VERSUS INTERACTIVE</span></h3>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3 navigation-feed" ng-controller="RelinkConfig as rdl">
+			<div id="warning-bar" class="bg-warning"><div class="innerText">No .htaccess file found at defined path. Please check your settings or <a id="create-aces" ng-click="rdl.createhtac()">Create .htaccess file</a></div><i class="close-btn">X</i></div>
+			<ul>
+				<li>
+					<h4>{{settings.usrname}}<br><small>Admin</small></h4>
+					<a id="logout" ng-click="rdl.logout()">logout</a>
+					<br>
+				</li>
+				<li>
+					<a href="#" class="navigation-slide">Settings</a>
+					<div class="slide-content">
+						<div id="update-success" class="bg-success">Your settings have been updated.</div>
+						<form id="config-settings" ng-submit="rdl.updatesettings()">
+							<div class="row">
+								<h4 class="text-uppercase">htaccess configuation</h4>
+								<h5>Set your root domain</h5>
+								<input type="text" id="con-domain" ng-model="rootdomain" name="root_domain" placeholder="{{settings.rootdomain}}" class="form-control">
+								<small>This is used to create the 301 redirect.</small> 
+							</div>
+							<div class="row">
+								<h5>Set your htaccess destination</h5>
+								<input type="text" id="con-dir" ng-model="htades" name="hta_dir" placeholder="{{settings.htaccessdirectory}}" class="form-control">
+								<small>Use a relative path as it pertains to root directory (ex: '/' will be yourdomain.com/.htaccess)</small> 
+							</div>
+							<div class="row">
+								<h5>Set your htaccess start point</h5>
+								<input type="text" id="con-st" ng-model="startpoint" name="hta_st" placeholder="{{settings.startpoint}}" class="form-control">
+								<small>This is will be the last line before the RElink redirects (RElink will replace anything after this line).</small> 
+								<br>
+								<strong>RElink redirects will start with '# BEGIN RlviReWrite'</strong>
+							</div>
+							<input type="submit" name="submit" id="complete-install" value="update settings">
+							<i class="fa fa-spinner fa-pulse" id="loading-pulse"></i><i class="fa fa-check-circle" id="loading-done"></i>
+						</form>
+					</div>
+				</li>
+				<li>
+					<a href="showfile.php" target="_blank">View .htaccess</a>
+				</li>
+				</ul>
+			</div><!-- end left columns -->
+			<div class="col-md-9 link-feed">
+			<div id="app-controller-wrapper" ng-controller="LinkerController as links">
+				<div>
+					<form class="form-inline" id="link-add-form" name="addRelink" ng-submit="links.addLinks()" >
+						<div class="form-group">
+							<label for="orginal_link">old link</label>
+							<input type="text" class="form-control linkswt" id="orginal_link" name="orginalLink" placeholder="/inventory/item" ng-model="orglnk">
+						</div>
+						<div class="form-group">
+							<label for="new_link">new link</label>
+							<input type="text" class="form-control linkswt" id="new_link" name="newlink" placeholder="/catalog/item-product-name" ng-model="nwlnk">
+						</div>
+						<button type="submit" class="btn btn-default">add redirect</button>
+					</form>
+				</div>
+				<br>
+				<div id="under-add-wrapper">
+					<div class="fixed-container">
+						<p class="complie-list">
+						Done adding redirect links? <button type="button" class="btn btn-success text-uppercase" ng-click="links.compileList()">complie redirects</button> <i id="loading-icon" class="fa fa-spinner fa-spin"></i>
+						</p>
+						<span id="trash" ng-click="links.removeFromList()"><i class="fa fa-trash-o"></i>move to trash</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="check-box table-head" id="chkall-wrapper">&nbsp;</div>
+					<div class="old-link table-head">
+						Old Link
+					</div>
+					<div class="new-link table-head">
+						New Link
+					</div>
+					<div class="details table-head">
+						Added by
+					</div>
+				</div>
+				<div id="relinkController">
+					<div class="row">
+						<div class="check-box2"><input type="checkbox" name="checker" id="checkall" value="all" ng-click="links.checkbox()">select all</div>
+					</div>
+					<!-- this content will repeat -->
+					<form id="manage-links" name="manageRelink">
+						<div ng-repeat="rdl in redirects">
+							<div class="row link-row" id="row{{rdl.redirectlnk.rowID}}">
+								<div class="check-box"><input type="checkbox" name="row[]" value="{{rdl.redirectlnk.rowID}}" ng-click="links.checkbox()" class="row-name"></div>
+								<div class="old-link">
+									<a href="{{rdl.redirectlnk.rootDomain}}{{rdl.redirectlnk.oldlink}}" target="_blank">{{rdl.redirectlnk.oldlink}}</a>
+								</div>
+								<div class="new-link">
+									<a href="{{rdl.redirectlnk.rootDomain}}{{rdl.redirectlnk.newlink}}" target="_blank">{{rdl.redirectlnk.newlink}}</a>
+								</div>
+								<div class="details">
+									<strong class="usr-lnk">{{rdl.redirectlnk.user}}</strong>
+									<small class="time-lnk">{{rdl.redirectlnk.userdate}}</small>
+								</div>
+							</div><!-- end row -->
+							
+						</div><!-- end repeat -->
+					</form>
+				</div><!-- end controller -->
+			</div><!-- end link-feed -->
+		</div><!-- end row -->
+	</div>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="phonegap.js"></script>
+	<script src="_js/bootstrap.min.js"></script>
+	<script src="_js/angular.min.js"></script>
+	<script src="_js/main.js"></script>
+</body>
+</html>
